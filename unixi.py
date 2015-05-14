@@ -6,7 +6,8 @@ import sys
 import os
 
 def gen_unix_fn(fn):
-    no_ws = fn.replace(' ', '_')
+    no_special_chars = remove_non_printable_chars(fn)
+    no_ws = no_special_chars.replace(' ', '_')
     splitted = list(no_ws)
     on_underscore = False
     on_hyphen = False
@@ -30,6 +31,18 @@ def gen_unix_fn(fn):
             on_underscore = False
             on_hyphen = False
             res.append(c)    
+
+    return ''.join(res)
+
+def remove_non_printable_chars(s):
+    res = []
+    for char in s:
+        if ord(char) < 32: # Control characters
+            continue
+        elif ord(char) > 126: # Non-ASCII characters
+            continue
+        else:
+            res.append(char)
 
     return ''.join(res)
 
