@@ -50,13 +50,26 @@ if __name__ == '__main__':
     if len(sys.argv) < 2:
         print('Please provide a filename to rename.')
         sys.exit(1)
+
+    dry_run_mode = False
+    if len(sys.argv) >= 3 and sys.argv[2] == '-d':
+        dry_run_mode = True
+
+    if sys.argv[1] == '.':
+        # Run unixypy on all files of a dir
+        all_files = os.listdir('.')
+        if dry_run_mode:
+            for fn in all_files:
+                print gen_unix_fn(fn)
+        else:
+            for fn in all_files:
+                os.rename(fn, gen_unix_fn(fn))
+        sys.exit(0)
     
     old_fn = sys.argv[1]
     
-    if len(sys.argv) >= 3 and sys.argv[2] == '-d':
+    if dry_run_mode:
         print gen_unix_fn(old_fn)
-        exit (0)
-        
-    os.rename(old_fn, gen_unix_fn(old_fn))
-
+    else:
+        os.rename(old_fn, gen_unix_fn(old_fn))
 
