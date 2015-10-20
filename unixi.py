@@ -8,7 +8,8 @@ import os
 def gen_unix_fn(fn):
     no_special_chars = remove_non_printable_chars(fn)
     no_ws = no_special_chars.replace(' ', '_')
-    splitted = list(no_ws)
+    no_brackets = no_ws.replace('(', '_').replace(')', '_')
+    splitted = list(no_brackets)
     on_underscore = False
     on_hyphen = False
     res = []
